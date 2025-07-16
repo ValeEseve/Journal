@@ -1,0 +1,19 @@
+ {/* <div className="grid grid-cols-7 gap-2">
+    {days.map((day, i) => {
+      if (!day) {
+        return <div key={`empty-${i}`} />; // espacio vacío
+      }
+
+      const dataDate = format(day, "dd-MM-yyyy");
+      return (
+        <button
+          key={dataDate}
+          data-date={dataDate}
+          // onClick={() => openRegister(dataDate)}
+          className="no-border bg-white text-gray-800 p-2 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {format(dia, "d")}
+        </button>
+      );
+    })}
+  </div> */}

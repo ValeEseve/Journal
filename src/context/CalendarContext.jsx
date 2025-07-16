@@ -1,5 +1,5 @@
-import { getYear, getMonth, getDay, getDate, getFullYear, getDaysInMonth } from "date-fns";
-import { createContext, useState } from "react";
+import { getMonth, getDay, getDaysInMonth } from "date-fns";
+import { createContext, useEffect, useState } from "react";
 
 
 export const CalendarContext = createContext()
@@ -9,40 +9,40 @@ const CalendarProvider = ({ children }) => {
     function getToday(day = new Date()) {
         return day
     }
-    getBlankSpaces = (month, year) => {
-        const firstDayOfMonth = new Date(year, month, 1);
+    const getMonthView = (date) => {
+        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
         const firstDayOfWeek = getDay(firstDayOfMonth);
-        return Array.from({ length: firstDayOfWeek }, (_, i) => (
-            <div key={i} className="flex items-center justify-center">
-                {/* Blank space */}
-            </div>
-        ));
+        const blankSpaces = Array.from({ length: firstDayOfWeek }).map(() => null);
+        const daysInMonth = getDaysInMonth(firstDayOfMonth);
 
-
-    
+        const days = Array.from({ length: daysInMonth }, (_, i) => {
+            return new Date(date.getFullYear(), date.getMonth(), i + 1);
+        });
+        return [...blankSpaces, ...days];
+    };
 
     // States
     const today = getToday()
     const [selectedDay, setSelectedDay] = useState({
-        month: getMonth(today),
-        year: getFullYear(today)
+        month: today.getMonth(),
+        year: today.getFullYear()
     })
     const weekDays = [
-    "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"
-  ]
+        "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"
+    ]
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
 
 
-
-
-    console.log(today)
+    const days = getMonthView(new Date(selectedDay.year, selectedDay.month, 1));
 
     return (
         <CalendarContext.Provider value={{
-            today,
+            today, days,
             selectedDay, setSelectedDay,
             weekDays, months,
+            getToday,
+            getMonthView
         }}>
             {children}
         </CalendarContext.Provider>
