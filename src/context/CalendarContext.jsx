@@ -6,13 +6,10 @@ export const CalendarContext = createContext()
 
 const CalendarProvider = ({ children }) => {
     // Functions
-    function getToday(day = new Date()) {
-        return day
-    }
     const getMonthView = (date) => {
         const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
         const firstDayOfWeek = getDay(firstDayOfMonth);
-        const blankSpaces = Array.from({ length: firstDayOfWeek }).map(() => null);
+        const blankSpaces = Array.from({ length: firstDayOfWeek - 1 }).map(() => null);
         const daysInMonth = getDaysInMonth(firstDayOfMonth);
 
         const days = Array.from({ length: daysInMonth }, (_, i) => {
@@ -22,8 +19,9 @@ const CalendarProvider = ({ children }) => {
     };
 
     // States
-    const today = getToday()
+    const today = new Date()
     const [selectedDay, setSelectedDay] = useState({
+        day: today.getDate(),
         month: today.getMonth(),
         year: today.getFullYear()
     })
@@ -32,8 +30,6 @@ const CalendarProvider = ({ children }) => {
     ]
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-
-
     const days = getMonthView(new Date(selectedDay.year, selectedDay.month, 1));
 
     return (
@@ -41,7 +37,6 @@ const CalendarProvider = ({ children }) => {
             today, days,
             selectedDay, setSelectedDay,
             weekDays, months,
-            getToday,
             getMonthView
         }}>
             {children}

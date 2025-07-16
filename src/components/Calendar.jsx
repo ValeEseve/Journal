@@ -7,15 +7,16 @@ const Calendar = ({ }) => {
     const { today, days,
         selectedDay, setSelectedDay,
         weekDays, months,
-        getToday,
         getMonthView } = useContext(CalendarContext)
 
 
     return (
         <section>
             {/* Calendar Header */}
-            <div>
+            <div className="flex items-center justify-between mb-4">
+                <button onClick={() => {setSelectedDay(prev => ({...prev, month: prev.month - 1 }))  }}>◀️</button>
                 <h2>MONTH</h2>
+                <button onClick={() => {setSelectedDay(prev => ({...prev, month: prev.month + 1 }))  }}>▶️</button>
             </div>
             {/* Week days */}
             <div className="grid grid-cols-7 gap-1 mb-2">
@@ -34,7 +35,9 @@ const Calendar = ({ }) => {
 
                     const dataDate = format(day, "dd-MM-yyyy");
                     return (
-                        <button
+                        <button 
+                            onClick={() => {setSelectedDay(prev => ({...prev, day: day.getDate(), month: day.getMonth(), year: day.getFullYear() }))  }}
+                        
                             key={dataDate}
                             data-date={dataDate}
                             // onClick={() => openRegister(dataDate)}
@@ -44,6 +47,10 @@ const Calendar = ({ }) => {
                         </button>
                     );
                 })}
+            </div>
+            <div>
+                <p>Selected Date: {format(new Date(selectedDay.year, selectedDay.month, selectedDay.day), "dd-MMMM yyyy")}</p>
+                <p>Today: {format(today, "dd-MM-yyyy")}</p>
             </div>
         </section>
     )
