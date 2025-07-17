@@ -41,7 +41,7 @@ const Calendar = ({ }) => {
                             key={dataDate}
                             data-date={dataDate}
                             // onClick={() => openRegister(dataDate)}
-                            className="no-border bg-white text-gray-800 p-2 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="no-border bg-white text-gray-800 p-2 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 transition-transform duration-200 cursor-pointer"
                         >
                             {format(day, "d")}
                         </button>
@@ -49,6 +49,7 @@ const Calendar = ({ }) => {
                 })}
             </div>
             <div>
+                
                 <p>Selected Date: {format(new Date(selectedDay.year, selectedDay.month, selectedDay.day), "dd-MMMM yyyy")}</p>
                 <p>Today: {format(today, "dd-MM-yyyy")}</p>
             </div>
