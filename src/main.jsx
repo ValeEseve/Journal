@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import CalendarProvider from './context/CalendarContext.jsx'
 import JournalContextProvider from './context/JournalContext.jsx'
+import { ThemeProvider } from "@material-tailwind/react";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CalendarProvider>
-      <JournalContextProvider>
-        <App />
-      </JournalContextProvider>
-    </CalendarProvider>
+    <ThemeProvider>
+      <CalendarProvider>
+        <JournalContextProvider>
+          <App />
+        </JournalContextProvider>
+      </CalendarProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

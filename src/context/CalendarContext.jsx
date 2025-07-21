@@ -26,9 +26,9 @@ const CalendarProvider = ({ children }) => {
         year: today.getFullYear()
     })
     const weekDays = [
-        "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"
+        "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
     ]
-    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     const days = getMonthView(new Date(selectedDay.year, selectedDay.month, 1));
 
