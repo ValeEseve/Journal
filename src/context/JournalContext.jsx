@@ -8,25 +8,59 @@ export const JournalContext = createContext();
 const JournalContextProvider = ({ children }) => {
     const { selectedDay, setSelectedDay } = useContext(CalendarContext)
     const [journalEntries, setJournalEntries] = useState({
-        "16-07-2025": { registers: 
-            [{text: "Primer registro del Journal!", 
-            time: "17:43" ,
-            id: 100}, 
-            {text: "Esto va a quedar bueno 💻", 
-            time: "17:46" ,
-            id: 101}], 
-            emotions: [] },
-            "15-07-2025": { registers: 
-            [{text: "Registro anterior de prueba", 
-            time: "17:43" ,
-            id: 177}, 
-            {text: "A seguir programando!", 
-            time: "17:46" ,
-            id: 199}], 
-            emotions: [] }
+        "16-07-2025": {
+            registers:
+                [{
+                    text: "Primer registro del Journal!",
+                    time: "17:43",
+                    id: 100
+                },
+                {
+                    text: "Esto va a quedar bueno 💻",
+                    time: "17:46",
+                    id: 101
+                }],
+            emotions: []
+        },
+        "15-07-2025": {
+            registers:
+                [{
+                    text: "Registro anterior de prueba",
+                    time: "17:43",
+                    id: 177
+                },
+                {
+                    text: "A seguir programando!",
+                    time: "17:46",
+                    id: 199
+                }],
+            emotions: []
+        }
     });
     const [entriesSelectedDay, setEntriesSelectedDay] = useState({})
     const [entriesDate, setEntriesDate] = useState(format(new Date(selectedDay.year, selectedDay.month, selectedDay.day), "dd-MM-yyyy"))
+
+    const addEntry = (input) => {
+        const newEntry = {
+            text: input.value,
+            time: format(new Date(), 'HH:mm'),
+            id: Date.now()
+        }
+        console.log(newEntry)
+        if (!journalEntries[entriesDate]) {
+            setJournalEntries(prev => ({
+                ...prev,
+                [entriesDate]: {
+                    registers: [newEntry],
+                    emotions: []
+                }
+            }))
+        } else {
+            setJournalEntries(prev => ({
+                ...prev, [entriesDate]: { ...prev[entriesDate], registers: [...prev[entriesDate].registers, newEntry] }
+            }))
+        }
+    }
 
     // Context
 
@@ -35,12 +69,13 @@ const JournalContextProvider = ({ children }) => {
         console.log(journalEntries[entriesDate])
         setEntriesSelectedDay(journalEntries[entriesDate])
         console.log(entriesSelectedDay)
-}, [selectedDay])
+    }, [selectedDay])
 
     return (
         <JournalContext.Provider value={{
             journalEntries, setJournalEntries,
-            entriesDate, setEntriesDate
+            entriesDate, setEntriesDate,
+            addEntry
         }}>
             {children}
         </JournalContext.Provider>

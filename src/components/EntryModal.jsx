@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Button,
     Dialog,
@@ -9,11 +9,18 @@ import {
     Textarea,
     Typography,
 } from "@material-tailwind/react";
+import { JournalContext } from '../context/JournalContext';
 
 const EntryModal = () => {
+    // Context
+    const { addEntry } = useContext(JournalContext)
+
+    // States
     const [open, setOpen] = useState(false);
+    const [entryText, setEntryText] = useState("")
 
     const handleOpen = () => setOpen(!open);
+    const handleChange = (e) => setEntryText(e.target.value);
 
     return (
         <>
@@ -38,20 +45,20 @@ const EntryModal = () => {
                         />
                     </svg>
                 </div>
-                <DialogBody>
+                <DialogBody className='static'>
                     <Typography className="mb-10 -mt-7 " color="gray" variant="lead">
                         Write the message and then click button.
                     </Typography>
                     <div className="grid gap-6">
-                        <Textarea label="Message" />
+                        <Textarea label="Message" value={entryText} onChange={handleChange}/>
                     </div>
                 </DialogBody>
                 <DialogFooter className="space-x-2">
-                    <Button variant="text" color="gray" onClick={handleOpen}>
+                    <Button className='rounded-sm border pt-1 pb-1 ps-2.5 pe-2.5' variant="text" color="gray" onClick={handleOpen}>
                         cancel
                     </Button>
-                    <Button variant="gradient" color="gray" onClick={handleOpen}>
-                        send message
+                    <Button variant="gradient" color="gray" onClick={() => {handleOpen, addEntry()}}>
+                        Add new entry
                     </Button>
                 </DialogFooter>
             </Dialog>
